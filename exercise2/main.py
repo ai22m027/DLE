@@ -25,7 +25,7 @@ loss = SELoss()
 sgd = SGD(x_data.tolist(), y_data.tolist(), net, loss)
 
 # Train the neural network
-sgd.train(lr_start=0.01, num_epochs=10000, gamma=1)
+sgd.train(lr_start=0.01, num_epochs=5000, gamma=1)
 
 # Plot the loss history
 sgd.plot_loss()
