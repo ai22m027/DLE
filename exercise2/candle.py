@@ -109,9 +109,9 @@ class SELoss (Loss):
         [e_1,e_2,...] -> e_1^2 + e_2^2 + ...
     """
     def eval (self, true, predicted):
-        pass
+        return sum(map(lambda a,b: (a-b)**2, true, predicted))
     def derivative (self, true, predicted):
-        pass
+        return list(map(lambda a,b: 2*(b-a), true, predicted))
 
 class Logistic (Layer):
     """
@@ -126,13 +126,24 @@ class Logistic (Layer):
         self.last_input = None
         self.last_output = None
     def zero_grad (self):
-        pass
+        #empty method since this layer has no parameters
+        return None
     def step (self, lr:float):
-        pass
+        #empty method since this layer has no parameters
+        return None
     def forward (self, x):
-        pass
+        x = np.array(x, dtype="float64")
+        self.last_input = x
+        self.last_output = 1 / (1 + np.exp(-x))
+        #self.last_output = np.array([1 / (1 + exp(-xx)) for xx in x])
+        return self.last_output
     def backward (self, y):
-        pass
+        y = np.array(y)
+        return (self.last_output*(1-self.last_output))*y
+        #return np.array([a*(1-a) for a in self.last_output], dtype="float64") * y
+        #Above: clever way    
+        #Below: straightforward way
+        #return  np.array([exp(-x) / (1 + exp(-x)**2) for x in self.last_input], dtype="float64") * y
 
 class ReLU (Layer):
     """
@@ -147,13 +158,19 @@ class ReLU (Layer):
         self.last_input = None
         self.last_output = None
     def zero_grad (self):
-        pass
+        #empty method since this layer has no parameters
+        return None
     def step (self, lr):
-        pass
+        #empty method since this layer has no parameters
+        return None
     def forward (self, x):
-        pass
+        x = np.array(x, dtype="float64")
+        self.last_input = x
+        self.last_output = np.array([i if i > 0 else 0 for i in x], dtype="float64")
+        return self.last_output
     def backward (self, y):
-        pass
+        y = np.array(y, dtype="float64")
+        return np.array([1 if x >0 else 0 for x in self.last_input], dtype="float64") * y
 
 class Linear (Layer):
     """
@@ -174,15 +191,40 @@ class Linear (Layer):
             support = (6/dim_in)**0.5
         else:
             raise ValueError("Incorrect initialization scheme keyword.")
-        pass
+        #initialize weights
+        self.weights = np.random.uniform(low=-support, high=support, size=(dim_out, dim_in))
+        #initialize biases at zero
+        self.bias = np.array([0 for j in range(dim_out)], dtype="float64")
+        #slots for memoization
+        self.last_input = None
+        self.last_output = None
+        #slots to store the gradient
+        self.weights_grad = np.zeros(shape=(dim_out, dim_in), dtype="float64")
+        self.bias_grad = np.array([0 for j in range(dim_out)], dtype="float64")
     def zero_grad (self):
-        pass
+        #reset all gradient slots to zero
+        self.weights_grad = np.zeros(shape=(self.dim_out, self.dim_in), dtype="float64")
+        self.bias_grad = np.array([0 for j in range(self.dim_out)], dtype="float64")
     def step (self, lr:float):
-        pass
+        self.weights -= lr * self.weights_grad
+        self.bias -= lr * self.bias_grad
+        #self.bias = self.bias - lr * self.bias_grad
     def forward (self, x):
-        pass
+        x = np.array(x, dtype="float64")
+        self.last_input = x
+        self.last_output = np.matmul(self.weights, x) +  self.bias
+        return self.last_output
     def backward (self, y):
-        pass
+        y = np.array(y, dtype="float64")
+        #pass partial gradient backward
+        input_grad = np.matmul(y, self.weights)
+        #compute gradient for bias vector
+        #Recall: d bias = y
+        self.bias_grad += y
+        #compute gradient for weight matrix
+        weights_derivative = np.outer(y, self.last_input)
+        self.weights_grad += weights_derivative
+        return input_grad
 
 class SGD:
     """
