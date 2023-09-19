@@ -173,22 +173,9 @@ class ReLU (Layer):
         return np.array([1 if x >0 else 0 for x in self.last_input], dtype="float64") * y
 
 class PReLU(Layer):
-    """
-    Parametric Leaky ReLU activation layer.
-    Element-wise:
-        x_i -> x_i if x_i > 0
-        x_i -> a_i * x_i if x_i <= 0
-    """
 
     def __init__(self, n):
-        """
-        Initialize the PReLU layer.
 
-        Parameters
-        ----------
-        n : int
-            Number of elements in the input vector.
-        """
         self.name = "prelu"
         self.dim_in = n
         self.dim_out = n
@@ -197,55 +184,22 @@ class PReLU(Layer):
         self.a = np.ones(n, dtype="float64")  # Initialize 'a' parameters to 1.0
 
     def zero_grad(self):
-        """
-        Reset gradient slots for 'a' to zero.
-        """
+
         self.grad_a = np.zeros(self.dim_in, dtype="float64")
 
     def step(self, lr):
-        """
-        Take a step in the direction of the gradient for 'a' with learning rate 'lr'.
 
-        Parameters
-        ----------
-        lr : float
-            Learning rate for updating 'a' parameters.
-        """
         self.a -= lr * self.grad_a
 
     def forward(self, x):
-        """
-        Forward pass through the PReLU layer.
 
-        Parameters
-        ----------
-        x : np.ndarray
-            Input vector.
-
-        Returns
-        -------
-        np.ndarray
-            Output vector after applying PReLU activation.
-        """
         x = np.array(x, dtype="float64")
         self.last_input = x
         self.last_output = np.where(x > 0, x, self.a * x)
         return self.last_output
 
     def backward(self, y):
-        """
-        Backward pass through the PReLU layer.
 
-        Parameters
-        ----------
-        y : np.ndarray
-            Gradient from the next layer.
-
-        Returns
-        -------
-        np.ndarray
-            Gradient with respect to the input of the PReLU layer.
-        """
         y = np.array(y, dtype="float64")
         dy_dx = np.where(self.last_input > 0, 1.0, self.a)
         self.grad_a = np.where(self.last_input <= 0, y * self.last_input, 0)

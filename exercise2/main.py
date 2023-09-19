@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 from random import sample
 from candle import *
 
-# Create a dataset for XOR
+# Dataset creation
 x_data = np.array([[0, 0], [0, 1], [1, 0], [1, 1]], dtype="float64")
 y_data = np.array([[1, 0], [0, 1], [0, 1], [1, 0]], dtype="float64")
 
-# Define and construct the neural network
+# NN init
 net = NeuralNet()
 net.add_layer(Linear(2, 10))
 net.add_layer(PReLU(10))
@@ -18,13 +18,11 @@ for _ in range(20):
 net.add_layer(Linear(10, 2))
 net.add_layer(Logistic())
 
-# Define the loss function (e.g., MSE loss)
+# loss fct
 loss = SELoss()
 
-# Create an SGD instance for training
+# SGD init and train (5k epochs), sometimes the loss is converging way earlier
 sgd = SGD(x_data.tolist(), y_data.tolist(), net, loss)
-
-# Train the neural network
 sgd.train(lr_start=0.01, num_epochs=5000, gamma=1)
 
 # Plot the loss history
