@@ -67,6 +67,11 @@ def plot_classes (x_data, y_data, title=""):
     
     
 class ResidualBlock(nn.Module):
+    """Residual block according to provided PDF.
+
+    Args:
+        nn (_type_): _description_
+    """
     def __init__(self):
         super(ResidualBlock, self).__init__()
         self.fc1 = nn.Linear(2, 2)
@@ -83,6 +88,12 @@ class ResidualBlock(nn.Module):
 
 
 class ResidualNet(nn.Module):
+    """ResidualNet class. Consists of a series of ResidualBlock(s) 
+    and a Linear block in the end with sigmoid activation function.
+
+    Args:
+        nn (_type_): _description_
+    """
     def __init__(self, num_blocks):
         super(ResidualNet, self).__init__()
         self.blocks = nn.ModuleList([ResidualBlock() for _ in range(num_blocks)])
@@ -93,6 +104,49 @@ class ResidualNet(nn.Module):
             x = block(x)
         x = self.final_fc(x)
         return torch.sigmoid(x)  # sigmoid output, cause why not
+    
+def plot_intermediate_representations(model, x_data, y_data, title=""):
+    """Helper function to plot interm. results of final model.
+
+    Args:
+        model (_type_): ResNet model
+        x_data (_type_): training data
+        y_data (_type_): training data labels
+        title (str, optional): Plot title. Defaults to "".
+    """
+    model.eval()
+    with torch.no_grad():
+        x_data = torch.tensor(x_data, dtype=torch.float32)
+        intermediate_outputs = []
+
+        def hook(module, input, output):
+            intermediate_outputs.append(output)
+
+        hooks = []
+        for block in model.blocks:
+            hook_handle = block.register_forward_hook(hook)
+            hooks.append(hook_handle)
+
+        model(x_data)
+
+        num_blocks = len(intermediate_outputs)
+        fig, axes = plt.subplots(1, num_blocks, figsize=(15, 3))
+        fig.suptitle(title)
+
+        for i in range(num_blocks):
+            intermediate_data = intermediate_outputs[i].numpy()
+            class0_indices = [j for j in range(len(x_data)) if y_data[j] == 0]
+            class1_indices = [j for j in range(len(x_data)) if y_data[j] == 1]
+
+            axes[i].scatter(intermediate_data[class0_indices, 0], intermediate_data[class0_indices, 1], s=10, label='Class 0', marker='o')
+            axes[i].scatter(intermediate_data[class1_indices, 0], intermediate_data[class1_indices, 1], s=10, label='Class 1', marker='x')
+            axes[i].set_title(f'Block {i + 1}')
+            axes[i].legend()
+
+        plt.show()
+
+        for hook_handle in hooks:
+            hook_handle.remove()
 
 def main():
     #gen data
@@ -124,7 +178,7 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=0.01)
 
     # Training loop
-    num_epochs = 10000
+    num_epochs = 1000 # sometimes it converges nicely, sometimes it needs more epochs
     train_losses = []
     test_losses = []
 
@@ -151,6 +205,11 @@ def main():
 
         print(f'Epoch [{epoch + 1}/{num_epochs}] Train Loss: {train_losses[-1]:.4f} Test Loss: {test_losses[-1]:.4f}')
 
+    '''
+    The model sometimes can't converge. Please just rerun the script. Could runs lead to a loss of ~ 0.3 after 1000 epochs.
+    '''
+
+    # Task 1
     # Plot the loss evolution
     plt.figure(figsize=(10, 5))
     plt.plot(train_losses, label='Train Loss')
@@ -159,6 +218,10 @@ def main():
     plt.ylabel('Loss')
     plt.legend()
     plt.show()
+    
+    # Task 2
+    # Plot the intermediat state of the ResNet
+    plot_intermediate_representations(model, x_data, y_data, title="Intermediate Representations of Final Model")
 
 if __name__ == "__main__":
     main()
