@@ -103,7 +103,7 @@ class ResidualNet(nn.Module):
         for block in self.blocks:
             x = block(x)
         x = self.final_fc(x)
-        return torch.sigmoid(x)  # sigmoid output, cause why not
+        return torch.tanh(x)  # tanh, sigmoid was not so nice
     
 def plot_intermediate_representations(model, x_data, y_data, title=""):
     """Helper function to plot interm. results of final model.
@@ -156,6 +156,9 @@ def main():
     x_data = torch.tensor(x_data, dtype=torch.float32)
     y_data = torch.tensor(y_data, dtype=torch.float32)
 
+    indices = torch.randperm(len(x_data))
+    x_data = x_data[indices]
+    y_data = y_data[indices]
     # train - test split
     split_ratio = 0.8
     split_idx = int(len(x_data) * split_ratio)
@@ -207,6 +210,7 @@ def main():
 
     '''
     The model sometimes can't converge. Please just rerun the script. Could runs lead to a loss of ~ 0.3 after 1000 epochs.
+    -> this was vastly improved, by using a tanh as the last activation layer!
     '''
 
     # Task 1
@@ -222,6 +226,7 @@ def main():
     # Task 2
     # Plot the intermediat state of the ResNet
     plot_intermediate_representations(model, x_data, y_data, title="Intermediate Representations of Final Model")
+    plt.show()
 
 if __name__ == "__main__":
     main()
