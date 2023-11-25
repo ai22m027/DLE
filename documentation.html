@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>documentation.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="observer-pattern--library---jni">Observer Pattern :  Library -&gt; JNI</h1>
+<p>Setting an observer for asynchronous communication from the library to the JNI wrapper.</p>
+<pre class="hljs"><code><div><span class="hljs-function">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL
+<span class="hljs-title">Java_com_stappone_neolib_NeoLibWrapperImpl_setLibraryResponseMessageObserver</span><span class="hljs-params">(JNIEnv *env,
+                                                                             jobject thiz)</span> </span>{
+    <span class="hljs-keyword">auto</span> comms = getStapponeCommsHandle(env, thiz);
+    jobject observer = env-&gt;NewGlobalRef(thiz);
+    globalMessageRef = observer;
+
+    JavaVM *jvm;
+    env-&gt;GetJavaVM(&amp;jvm);
+
+    comms-&gt;setMessageObserver([jvm, observer](<span class="hljs-keyword">uint8_t</span> *msgPtr, <span class="hljs-keyword">uint8_t</span> msgLen) {
+        runInJavaEnvironment(jvm, [observer, msgPtr, msgLen](JNIEnv *env) {
+            jclass clazz = env-&gt;GetObjectClass(observer);
+            jmethodID meth = env-&gt;GetMethodID(clazz, <span class="hljs-string">"onMessageData"</span>, <span class="hljs-string">"([B)V"</span>);
+            jbyteArray jdata = env-&gt;NewByteArray(msgLen);
+
+            env-&gt;SetByteArrayRegion(jdata, <span class="hljs-number">0</span>, msgLen, (jbyte *) msgPtr);
+            env-&gt;CallVoidMethod(observer, meth, jdata);
+            env-&gt;DeleteLocalRef(jdata);
+        });
+    });
+}
+</div></code></pre>
+<p>This is the function signature. It tells the JNI framework that this function corresponds to the Java method setLibraryResponseMessageObserver in the class com.stappone.neolib.NeoLibWrapperImpl. It takes two parameters: env, a pointer to the JNI environment, and thiz, a reference to the Java object that called this method.</p>
+<pre class="hljs"><code><div>Java_com_stappone_neolib_NeoLibWrapperImpl_setLibraryResponseMessageObserver(JNIEnv *env, jobject thiz)
+</div></code></pre>
+<p>It retrieves a handle (comms) to a C++ object of some communication class by calling the getStapponeCommsHandle function. This handle allows the C++ code to interact with the communication object.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">auto</span> comms = getStapponeCommsHandle(env, thiz);
+</div></code></pre>
+<p>The implementation of getStapponeCommsHandle.</p>
+<pre class="hljs"><code><div><span class="hljs-function">NEOLibrary::StapponeComms *<span class="hljs-title">getStapponeCommsHandle</span><span class="hljs-params">(JNIEnv *env, jobject obj)</span> </span>{
+    jlong handle = env-&gt;GetLongField(obj, getStapponeCommsHandleField(env, obj));
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">reinterpret_cast</span>&lt;NEOLibrary::StapponeComms *&gt;(handle);
+}
+</div></code></pre>
+<p>It creates a global reference to the thiz object (the Java object that called this method). This global reference ensures that the Java object is not garbage collected while this C++ code is still using it.</p>
+<pre class="hljs"><code><div>jobject observer = env-&gt;NewGlobalRef(thiz);
+</div></code></pre>
+<p>It assigns the global reference observer to a global variable called globalMessageRef. This allows other parts of the C++ code to access the Java object.</p>
+<pre class="hljs"><code><div>globalMessageRef = observer;
+</div></code></pre>
+<p>It gets a pointer to the Java Virtual Machine (JVM) by calling env-&gt;GetJavaVM(&amp;jvm). This is necessary to later create a Java environment for running Java code from within C++.</p>
+<pre class="hljs"><code><div>JavaVM *jvm; env-&gt;GetJavaVM(&amp;jvm);
+</div></code></pre>
+<p>It sets a message observer for the communication object (comms). This observer is a C++ lambda function that takes a uint8_t pointer msgPtr and a uint8_t msgLen as arguments.</p>
+<pre class="hljs"><code><div>comms-&gt;setMessageObserver(...)
+</div></code></pre>
+<p>Inside the lambda function, runInJavaEnvironment(jvm, ...) is called, which is a utility function in your codebase. It's used to execute a block of Java code within the Java environment.</p>
+<p>Inside the <code>runInJavaEnvironment</code> block:</p>
+<ul>
+<li><code>jclass clazz = env-&gt;GetObjectClass(observer);</code>: It gets the Java class of the <code>observer</code> object.</li>
+<li><code>jmethodID meth = env-&gt;GetMethodID(clazz, &quot;onMessageData&quot;, &quot;([B)V&quot;);</code>: It obtains the method ID of the Java method named <code>onMessageData</code> that takes a byte array (<code>[B</code>) and returns <code>void</code> (<code>V</code>).</li>
+<li><code>jbyteArray jdata = env-&gt;NewByteArray(msgLen);</code>: It creates a new Java byte array of the specified length.</li>
+<li><code>env-&gt;SetByteArrayRegion(jdata, 0, msgLen, (jbyte *) msgPtr);</code>: It copies the data from the C++ <code>msgPtr</code> into the Java byte array <code>jdata</code>.</li>
+<li><code>env-&gt;CallVoidMethod(observer, meth, jdata);</code>: It calls the <code>onMessageData</code> method on the <code>observer</code> object, passing in the <code>jdata</code> byte array.</li>
+<li><code>env-&gt;DeleteLocalRef(jdata);</code>: It deletes the local reference to the <code>jdata</code> byte array to avoid memory leaks.</li>
+</ul>
+<p>In summary, this code sets up a callback mechanism in C++ to notify a Java object (<code>observer</code>) of incoming messages. It uses JNI to bridge the gap between Java and C++. When a message is received, it copies the message data into a byte array and calls the <code>onMessageData</code> method of the Java object, passing the message data as an argument.</p>
+<h2 id="runinjavaenvironment">runInJavaEnvironment</h2>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">void</span>
+<span class="hljs-title">runInJavaEnvironment</span><span class="hljs-params">(JavaVM *jvm, <span class="hljs-built_in">std</span>::function&lt;<span class="hljs-keyword">void</span>(JNIEnv *)&gt;
+executable)</span> </span>{ <span class="hljs-comment">//convenience function</span>
+    runInJavaEnvironment(jvm, <span class="hljs-literal">NULL</span>, [executable](JNIEnv *env,
+    jclass clazz) { executable(env); });
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">runInJavaEnvironment</span><span class="hljs-params">(JavaVM *jvm, jobject observer,
+                          <span class="hljs-built_in">std</span>::function&lt;<span class="hljs-keyword">void</span>(JNIEnv *, jclass clazz)&gt; executable)</span> </span>{
+    <span class="hljs-keyword">bool</span> attachedHere = <span class="hljs-literal">false</span>; <span class="hljs-comment">/* know if detaching at the end is necessary*/</span>
+    <span class="hljs-keyword">try</span> {
+        JNIEnv *env;
+        <span class="hljs-keyword">if</span> (getAttachedJavaEnvFromJvm(&amp;env, jvm, &amp;attachedHere)) {
+            <span class="hljs-comment">/* Execute code using env */</span>
+            jclass clazz = <span class="hljs-literal">NULL</span>;
+            <span class="hljs-keyword">if</span> (observer != <span class="hljs-literal">NULL</span>) {
+                clazz = env-&gt;GetObjectClass(observer);
+            }
+            executable(env, clazz);
+            <span class="hljs-keyword">if</span> (attachedHere) { <span class="hljs-comment">/* Key check */</span>
+                <span class="hljs-comment">/* Done only when attachment was done here */</span>
+                jvm-&gt;DetachCurrentThread();
+            }
+        }
+    } <span class="hljs-keyword">catch</span> (...) {
+        <span class="hljs-keyword">if</span> (attachedHere) { <span class="hljs-comment">/* Key check */</span>
+            <span class="hljs-comment">/* Done only when attachment was done here */</span>
+            jvm-&gt;DetachCurrentThread();
+        }
+    }
+}
+</div></code></pre>
+<ol>
+<li>
+<p><code>void runInJavaEnvironment(JavaVM *jvm, std::function&lt;void(JNIEnv *)&gt; executable)</code>: This is the first overloaded version of the function. It takes two parameters:</p>
+<ul>
+<li><code>jvm</code>: A pointer to the Java Virtual Machine (JVM).</li>
+<li><code>executable</code>: A <code>std::function</code> that represents a block of code which takes a <code>JNIEnv*</code> (JNI environment pointer) as its argument and returns <code>void</code>.</li>
+</ul>
+</li>
+<li>
+<p><code>runInJavaEnvironment(jvm, NULL, [executable](JNIEnv *env, jclass clazz) { executable(env); });</code>: This line is a call to another overloaded version of <code>runInJavaEnvironment</code>, which takes three arguments:</p>
+<ul>
+<li><code>jvm</code>: The JVM pointer passed from the outer function.</li>
+<li><code>NULL</code>: This is not used in the provided code.</li>
+<li>A lambda function that takes a <code>JNIEnv*</code> pointer (<code>env</code>) and a <code>jclass</code> (<code>clazz</code>) as arguments. Inside the lambda, it calls the <code>executable</code> function with the <code>env</code> argument. This lambda essentially adapts the <code>std::function</code> interface to match the three-argument version of <code>runInJavaEnvironment</code>.</li>
+</ul>
+</li>
+<li>
+<p><code>void runInJavaEnvironment(JavaVM *jvm, jobject observer, std::function&lt;void(JNIEnv *, jclass clazz)&gt; executable)</code>: This is the second overloaded version of the <code>runInJavaEnvironment</code> function. It takes three parameters:</p>
+<ul>
+<li><code>jvm</code>: The JVM pointer.</li>
+<li><code>observer</code>: A <code>jobject</code> (Java object reference). This is typically used to determine the class of the object, allowing the code block to interact with Java methods related to that object.</li>
+<li><code>executable</code>: A <code>std::function</code> that represents a block of code that takes a <code>JNIEnv*</code> pointer (<code>env</code>) and a <code>jclass</code> (<code>clazz</code>) as its arguments. The <code>jclass</code> represents the class of the <code>observer</code> object.</li>
+</ul>
+</li>
+<li>
+<p>Inside the function, there is a try-catch block. The purpose of this block is to handle exceptions that might occur during the execution of the code block.</p>
+</li>
+<li>
+<p><code>bool attachedHere = false;</code>: This flag is used to keep track of whether the current thread is attached to the JVM within this function. It starts as <code>false</code>.</p>
+</li>
+<li>
+<p><code>if (getAttachedJavaEnvFromJvm(&amp;env, jvm, &amp;attachedHere))</code>: This condition checks whether the current thread is already attached to the JVM. If it's not attached, the function <code>getAttachedJavaEnvFromJvm</code> is called to attach the thread and obtain the <code>env</code>. The <code>attachedHere</code> flag is set to <code>true</code> to indicate that the attachment was done within this function.</p>
+</li>
+<li>
+<p><code>jclass clazz = NULL;</code>: A <code>jclass</code> variable is initialized as <code>NULL</code>. This will be used to hold the class of the <code>observer</code> object.</p>
+</li>
+<li>
+<p><code>if (observer != NULL) { clazz = env-&gt;GetObjectClass(observer); }</code>: If the <code>observer</code> object is not <code>NULL</code>, it retrieves the class of the <code>observer</code> object using <code>GetObjectClass</code> and assigns it to the <code>clazz</code> variable.</p>
+</li>
+<li>
+<p><code>executable(env, clazz);</code>: Finally, the <code>executable</code> function is called with the <code>env</code> and <code>clazz</code> arguments, allowing it to execute within the Java environment and interact with Java objects and methods.</p>
+</li>
+<li>
+<p>After the execution of the code block is complete, there is a check: <code>if (attachedHere) { jvm-&gt;DetachCurrentThread(); }</code>. If the current thread was attached to the JVM within this function (<code>attachedHere</code> is <code>true</code>), it is detached from the JVM to clean up the thread attachment.</p>
+</li>
+</ol>
+<p>In summary, the <code>runInJavaEnvironment</code> function is a utility that ensures a block of code is executed within the Java environment, handling thread attachment and detachment as needed. It provides the <code>JNIEnv</code> to the code block for interaction with Java objects and methods.</p>
+<h1 id="potential-alternatives">Potential Alternatives</h1>
+<ol>
+<li>Java Native Access (JNA)</li>
+<li>JNI Wrappers</li>
+<li>Android NDK</li>
+</ol>
+<h2 id="jna">JNA</h2>
+<p>create the Java interface</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">JavaInterface</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">someJavaMethod</span><span class="hljs-params">(String message)</span></span>;
+}
+</div></code></pre>
+<p>create the Java class</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JavaClass</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">JavaInterface</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">someJavaMethod</span><span class="hljs-params">(String message)</span> </span>{
+        System.out.println(<span class="hljs-string">"Java received: "</span> + message);
+    }
+}
+</div></code></pre>
+<ol>
+<li>Compile the Java class, which generates a .class file.</li>
+<li>In your C++ code, use JNA to load the Java class and call its methods.</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;jni.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;dlfcn.h&gt; // On Linux/macOS</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">void</span> <span class="hljs-params">(*JavaMethod)</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*)</span></span>;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">void</span>* jvmLibrary = dlopen(<span class="hljs-string">"libjvm.so"</span>, RTLD_NOW); <span class="hljs-comment">// Load the JVM library</span>
+    <span class="hljs-keyword">if</span> (jvmLibrary == <span class="hljs-literal">nullptr</span>) {
+        <span class="hljs-comment">// Handle error</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    }
+
+    JNIEnv* env;
+    JavaVM* jvm;
+    JavaMethod javaMethod;
+
+    <span class="hljs-comment">// Initialize the JVM and get the JNIEnv</span>
+    <span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">jint</span> <span class="hljs-params">(*CreateJavaVMFunc)</span><span class="hljs-params">(JavaVM**, JNIEnv**, <span class="hljs-keyword">void</span>*)</span></span>;
+    CreateJavaVMFunc createJavaVM = (CreateJavaVMFunc)dlsym(jvmLibrary, <span class="hljs-string">"JNI_CreateJavaVM"</span>);
+    <span class="hljs-keyword">if</span> (createJavaVM(&amp;jvm, &amp;env, <span class="hljs-literal">nullptr</span>) != JNI_OK) {
+        <span class="hljs-comment">// Handle error</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    }
+
+    <span class="hljs-comment">// Load the Java class and method</span>
+    jclass javaClass = env-&gt;FindClass(<span class="hljs-string">"JavaClass"</span>);
+    jmethodID javaMethodID = env-&gt;GetMethodID(javaClass, <span class="hljs-string">"someJavaMethod"</span>, <span class="hljs-string">"(Ljava/lang/String;)V"</span>);
+
+    <span class="hljs-comment">// Create an instance of the Java class</span>
+    jobject javaObject = env-&gt;NewObject(javaClass, env-&gt;GetMethodID(javaClass, <span class="hljs-string">"&lt;init&gt;"</span>, <span class="hljs-string">"()V"</span>));
+
+    <span class="hljs-comment">// Call the Java method</span>
+    env-&gt;CallVoidMethod(javaObject, javaMethodID, env-&gt;NewStringUTF(<span class="hljs-string">"Hello from C++"</span>));
+
+    <span class="hljs-comment">// Clean up</span>
+    jvm-&gt;DestroyJavaVM();
+    dlclose(jvmLibrary);
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<h2 id="jni-wrapper">JNI Wrapper</h2>
+<ol>
+<li>The Java class</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// JavaClass.java</span>
+<span class="hljs-keyword">package</span> com.example.myapp;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JavaClass</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">someJavaMethod</span><span class="hljs-params">(String message)</span> </span>{
+        System.out.println(<span class="hljs-string">"Java received: "</span> + message);
+    }
+}
+</div></code></pre>
+<ol start="2">
+<li>C++ wrapper class</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// JavaWrapper.h</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;jni.h&gt;</span></span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JavaWrapper</span> {</span>
+<span class="hljs-keyword">public</span>:
+    JavaWrapper(JNIEnv* env);
+    ~JavaWrapper();
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">callJavaMethod</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* message)</span></span>;
+
+<span class="hljs-keyword">private</span>:
+    JNIEnv* env_;
+    jobject javaObject_;
+};
+</div></code></pre>
+<ol start="3">
+<li>Implement the C++ wrapper class</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// JavaWrapper.cpp</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"JavaWrapper.h"</span></span>
+
+JavaWrapper::JavaWrapper(JNIEnv* env) : env_(env) {
+    jclass javaClass = env_-&gt;FindClass(<span class="hljs-string">"com/example/JavaClass"</span>); <span class="hljs-comment">// Replace with your Java class package</span>
+    jmethodID constructor = env_-&gt;GetMethodID(javaClass, <span class="hljs-string">"&lt;init&gt;"</span>, <span class="hljs-string">"()V"</span>);
+    javaObject_ = env_-&gt;NewObject(javaClass, constructor);
+}
+
+JavaWrapper::~JavaWrapper() {
+    env_-&gt;DeleteLocalRef(javaObject_);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">JavaWrapper::callJavaMethod</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* message)</span> </span>{
+    jmethodID javaMethod = env_-&gt;GetMethodID(env_-&gt;GetObjectClass(javaObject_), <span class="hljs-string">"someJavaMethod"</span>, <span class="hljs-string">"(Ljava/lang/String;)V"</span>);
+    jstring javaMessage = env_-&gt;NewStringUTF(message);
+    env_-&gt;CallVoidMethod(javaObject_, javaMethod, javaMessage);
+    env_-&gt;DeleteLocalRef(javaMessage);
+}
+</div></code></pre>
+<ol start="4">
+<li>create an instance of the wrapper class and call the Java Method</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"JavaWrapper.h"</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>{
+    JavaVM* jvm; <span class="hljs-comment">// Initialize and set up the JVM as needed</span>
+    JNIEnv* env; <span class="hljs-comment">// Obtain JNIEnv</span>
+    <span class="hljs-comment">// ...</span>
+
+    <span class="hljs-function">JavaWrapper <span class="hljs-title">javaWrapper</span><span class="hljs-params">(env)</span></span>;
+    javaWrapper.callJavaMethod(<span class="hljs-string">"Hello from C++"</span>);
+
+    <span class="hljs-comment">// Clean up JNI and JVM</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</div></code></pre>
+<h2 id="android-ndk">Android NDK</h2>
+<ol>
+<li>Create a Java class with the function you want to call from C++. For example, let's create a simple Android project with a Java class named JavaBridge:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// JavaBridge.java</span>
+<span class="hljs-keyword">package</span> com.example.myapp;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JavaBridge</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">javaFunction</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">"Java function called from C++"</span>);
+    }
+}
+</div></code></pre>
+<ol start="2">
+<li>In your CMakeLists.txt file, include the necessary NDK module, and specify the source files for your C++ code. For example:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">3.10</span>)
+
+<span class="hljs-keyword">project</span>(MyNDKApp)
+
+<span class="hljs-comment"># Specify the minimum version of the NDK your project depends on</span>
+<span class="hljs-keyword">set</span>(CMAKE_CXX_STANDARD <span class="hljs-number">14</span>)
+<span class="hljs-keyword">set</span>(CMAKE_CXX_STANDARD_REQUIRED <span class="hljs-keyword">ON</span>)
+
+<span class="hljs-comment"># Specify the Android platform and version</span>
+<span class="hljs-keyword">set</span>(CMAKE_SYSTEM_NAME Android)
+<span class="hljs-keyword">set</span>(CMAKE_ANDROID_NDK <span class="hljs-string">"path/to/ndk-bundle"</span>)
+<span class="hljs-keyword">set</span>(CMAKE_ANDROID_STL_TYPE <span class="hljs-string">"c++_shared"</span>)
+<span class="hljs-keyword">set</span>(CMAKE_ANDROID_API_MIN <span class="hljs-number">21</span>)
+
+<span class="hljs-comment"># Add your C++ source files</span>
+<span class="hljs-keyword">add_library</span>(
+    mynative
+    SHARED
+    mynative.cpp
+)
+
+<span class="hljs-comment"># Link the required libraries (e.g., log)</span>
+<span class="hljs-keyword">target_link_libraries</span>(
+    mynative
+    android
+    log
+)
+</div></code></pre>
+<ol start="3">
+<li>Write your C++ code that will call the Java/Kotlin function. In this example, we'll create a file named mynative.cpp:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;jni.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;android/log.h&gt;</span></span>
+
+<span class="hljs-keyword">extern</span> <span class="hljs-string">"C"</span> {
+
+<span class="hljs-comment">// Declare a JNI function to call the Java/Kotlin function</span>
+<span class="hljs-function">JNIEXPORT <span class="hljs-keyword">void</span> JNICALL
+<span class="hljs-title">Java_com_example_myapp_JavaBridge_callJavaFunction</span><span class="hljs-params">(JNIEnv* env, jobject thiz)</span> </span>{
+    jclass clazz = env-&gt;FindClass(<span class="hljs-string">"com/example/myapp/JavaBridge"</span>); <span class="hljs-comment">// Replace with your package and class name</span>
+    <span class="hljs-keyword">if</span> (clazz != <span class="hljs-literal">nullptr</span>) {
+        jmethodID methodID = env-&gt;GetStaticMethodID(clazz, <span class="hljs-string">"javaFunction"</span>, <span class="hljs-string">"()V"</span>);
+        <span class="hljs-keyword">if</span> (methodID != <span class="hljs-literal">nullptr</span>) {
+            env-&gt;CallStaticVoidMethod(clazz, methodID);
+        }
+    }
+}
+
+} <span class="hljs-comment">// extern "C"</span>
+</div></code></pre>
+<ol start="4">
+<li>Android Side</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// MainActivity.java (or any other suitable class)</span>
+<span class="hljs-keyword">package</span> com.example.myapp;
+
+<span class="hljs-keyword">import</span> androidx.appcompat.app.AppCompatActivity;
+<span class="hljs-keyword">import</span> android.os.Bundle;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>{
+
+    <span class="hljs-keyword">static</span> {
+        System.loadLibrary(<span class="hljs-string">"mynative"</span>);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>{
+        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        <span class="hljs-comment">// Call the JNI function to invoke the Java/Kotlin function</span>
+        JavaBridge.callJavaFunction();
+    }
+}
+</div></code></pre>
+
+</body>
+</html>
